@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hero Slider</title>
+  <link href="https://fonts.googleapis.com/css?family=Rajdhani&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    .hero-slider {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+    .swiper-slide {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-size: cover;
+      background-position: center;
+    }
+    .slide-inner {
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
+    .slide-title h2 {
+      font-size: 2.5rem;
+    }
+    .slide-text p {
+      font-size: 1.25rem;
+    }
+    .theme-btn-s2, .theme-btn-s3 {
+      margin-top: 10px;
+      padding: 10px 20px;
+      color: #fff;
+      background: #333;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- start of hero -->
+  <section class="hero-slider hero-style">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="slide-inner slide-bg-image" data-background="https://images.unsplash.com/photo-1578934191836-ff5f608c2228?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1349&q=80">
+            <div class="container">
+              <div data-swiper-parallax="300" class="slide-title">
+                <h2>GUITAR CLASSES FOR KIDS</h2>
+              </div>
+              <div data-swiper-parallax="400" class="slide-text">
+                <p>Want to see your kid become more expressive?</p>
+              </div>
+              <div class="clearfix"></div>
+              <div data-swiper-parallax="500" class="slide-btns">
+                <a href="#" class="theme-btn-s2">Register now</a>
+                <a href="#" class="theme-btn-s3"><i class="fas fa-chevron-circle-right"></i> Get Info</a>
+              </div>
+            </div>
+          </div>
+          <!-- end slide-inner -->
+        </div>
+        <!-- end swiper-slide -->
+
+        <div class="swiper-slide">
+          <div class="slide-inner slide-bg-image" data-background="https://images.unsplash.com/photo-1579003087287-997fd4d18771?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80">
+            <div class="container">
+              <div data-swiper-parallax="300" class="slide-title">
+                <h2>GUITAR CLASSES FOR KIDS</h2>
+              </div>
+              <div data-swiper-parallax="400" class="slide-text">
+                <p>Want to see your kid become more expressive?</p>
+              </div>
+              <div class="clearfix"></div>
+              <div data-swiper-parallax="500" class="slide-btns">
+                <a href="#" class="theme-btn-s2">Register now</a>
+                <a href="#" class="theme-btn-s3"><i class="fas fa-chevron-circle-right"></i>Get Info</a>
+              </div>
+            </div>
+          </div>
+          <!-- end slide-inner -->
+        </div>
+        <!-- end swiper-slide -->
+      </div>
+      <!-- end swiper-wrapper -->
+
+      <!-- swipper controls -->
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+  </section>
+  <!-- end of hero slider -->
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // HERO SLIDER
+      var menu = [];
+      $('.swiper-slide').each(function(index) {
+        menu.push($(this).find('.slide-inner').attr("data-text"));
+      });
+      var interleaveOffset = 0.5;
+      var swiperOptions = {
+        loop: true,
+        speed: 1000,
+        parallax: true,
+        autoplay: {
+          delay: 6500,
+          disableOnInteraction: false,
+        },
+        watchSlidesProgress: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        on: {
+          progress: function() {
+            var swiper = this;
+            for (var i = 0; i < swiper.slides.length; i++) {
+              var slideProgress = swiper.slides[i].progress;
+              var innerOffset = swiper.width * interleaveOffset;
+              var innerTranslate = slideProgress * innerOffset;
+              swiper.slides[i].querySelector(".slide-inner").style.transform =
+                "translate3d(" + innerTranslate + "px, 0, 0)";
+            }
+          },
+          touchStart: function() {
+            var swiper = this;
+            for (var i = 0; i < swiper.slides.length; i++) {
+              swiper.slides[i].style.transition = "";
+            }
+          },
+          setTransition: function(speed) {
+            var swiper = this;
+            for (var i = 0; i < swiper.slides.length; i++) {
+              swiper.slides[i].style.transition = speed + "ms";
+              swiper.slides[i].querySelector(".slide-inner").style.transition =
+                speed + "ms";
+            }
+          }
+        }
+      };
+
+      var swiper = new Swiper(".swiper-container", swiperOptions);
+
+      // DATA BACKGROUND IMAGE
+      var sliderBgSetting = $(".slide-bg-image");
+      sliderBgSetting.each(function(indx){
+        if ($(this).attr("data-background")){
+          $(this).css("background-image", "url(" + $(this).data("background") + ")");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
